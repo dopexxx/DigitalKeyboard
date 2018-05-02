@@ -72,10 +72,9 @@ def main():
     out = read_arduino()
     translate(out)
     
-binary = []
-for i in range(33): # suboptimal
-        current = bin(int(index[i]))
-        binary.append(format(current[2:].zfill(5)))
+if __name__=='__main__':
+    main()
+    
 
 
     
