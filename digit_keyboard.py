@@ -21,11 +21,12 @@ import serial
 import numpy as np
 import string
 
-def read_arduino():
+def read_arduino(table):
     ''' Creates a serial object to read from arduino, reads the values and 
     converts them to a character according to the lookup table created in
     create_table'''   
-    ard = serial.Serial('/dev/tty.usbmodem1411', 9600)
+    #ard = serial.Serial('/dev/tty.usbmodem1411', 9600)
+    ard = serial.Serial('/dev/tty.usbmodem14121',9600) 
     out = []
     while True:
         x = ard.readline()
@@ -34,7 +35,7 @@ def read_arduino():
         print('---')
         print(x)
         out.append(x)
-        print(translate(out))
+        print(translate(out,table))
         if len(out)>20:
             break
     return out
@@ -53,7 +54,7 @@ def create_table():
 
 
 
-def translate(binary_list,table=table):
+def translate(binary_list,table):
     ''' Implements lookup table created using create_table'''
     translation = []
     for i in range(len(binary_list)):
@@ -69,8 +70,8 @@ def main():
     '''Main method. Reads 5 numbers from arduino, outputs them as letters
     on-line and then outputs the resulting string.'''
     table = create_table()
-    out = read_arduino()
-    translate(out)
+    out = read_arduino(table)
+    translate(out,table)
     
 if __name__=='__main__':
     main()
