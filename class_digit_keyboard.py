@@ -10,7 +10,7 @@ class typing(object):
     """
     
     
-    def __init__(self,dev='Mo',pipe='Mo'): 
+    def __init__(self,dev='J',pipe='J'): 
         """
         Parameters:
         -----------
@@ -22,7 +22,7 @@ class typing(object):
         if dev == 'Mo':
             self.ard = serial.Serial('/dev/tty.usbmodem1411', 9600)
         elif dev == 'J':
-            self.ard = serial.Serial('/dev/tty.usbmodem14421',9600) 
+            self.ard = serial.Serial('/dev/tty.usbmodem14121',9600) 
         else:
             raise ValueError("Unspecified serial port")
             
@@ -31,9 +31,9 @@ class typing(object):
             self.create_table()        
             self.out = self.read_arduino()
             self.translate()
-        elif pipe == 'J'
+        elif pipe == 'J':
             # Alternative pipeline
-            self.predictions = str()
+            self.text = str()
             self.create_dict()
             self.read_arduino() # Change 1 line in that method
             self.translate_dict()
@@ -42,26 +42,25 @@ class typing(object):
         
         
         
-    def read_arduino(self,):
-    ''' 
-    Creates a serial object to read from arduino, reads the values and 
-    converts them to a character according to the lookup table created in
-    create_table
-    '''   
-    self.out = []
-    while True:
-        x = self.ard.readline()
-        x = x.decode('utf-8')
-        x = x[:-2]
-        print('---')
-        print(x)
-        self.out.append(x)
-        self.translate()
-        # Alternative
-        # self.translate_dict()
-        if len(out)>20:
-            break
-    return out
+    def read_arduino(self):
+        ''' 
+        Creates a serial object to read from arduino, reads the values and 
+        converts them to a character according to the lookup table created in
+        create_table
+        '''
+        self.out = []
+        while True:
+            x = self.ard.readline()
+            x = x.decode('utf-8')
+            x = x[:-2]
+            print('---')
+            print(x)
+            self.out.append(x)
+            self.translate_dict()
+            # Alternative
+            # self.translate_dict()
+            if len(self.out)>20:
+                break
 
 
     def create_table(self):
@@ -114,24 +113,30 @@ class typing(object):
         self.chars['10111'] = 'y'
         self.chars['01010'] = 'p'
         self.chars['11011'] = 'b'
-        self.chars['00011'] = 'v'
+        self.chars['01001'] = 'v'
         self.chars['11001'] = 'k'
         self.chars['00101'] = 'j'
         self.chars['01101'] = 'x'
         self.chars['10101'] = 'z' 
         self.chars['11101'] = 'q'
         self.chars['11111'] = ' '
-        self.chars['10110'] = '.'
-        self.chars['01001'] = ','
-        self.chars['01011'] = '!'
-        # chars['11010'] = CAPS LOCK
+
+
+        self.chars['01011'] = '.'
+        
+        # self.chars['11010'] = CAPS LOCK
+        # self.chars['10110'] = RETURN/Exit
+        # self.chars['00011'] = DELETE
+        self.capslock = False # Default is lowercase writing
+        self.returns = '10110'
+        self.delete = '00011'
+
 
         self.upper = dict()
-        self.upper['10110'] = ':'
-        self.upper['01001'] = ';'
+        #self.upper['10110'] = '.'
+        #self.upper['01001'] = ','
         self.upper['01011'] = '?'
         
-        self.capslock = False # Default is lowercase writing
 
 
 
@@ -141,17 +146,27 @@ class typing(object):
         Retrieves character from a dictionary by using 5-digit binary string as key.
         """
 
+        if self.out[-1] == self.delete:
 
-        if self.out[-1] == '11010': # CAPS LOCK PRESSED?
+            self.out = self.out[:-1]
+            print("Last character deleted")
+
+        elif self.out[-1] == '11010': # CAPS LOCK PRESSED?
 
             self.capslock = not self.capslock 
             print("Capslock activated." if self.capslock else "Capslock deactivated.")
 
+        elif self.out[-1] == self.returns:
+
+            self.OUTPUT = self.textx
+
         else:
 
             char = self.chars[self.out[-1]].upper() if self.capslock else self.chars[self.out[-1]]
-            self.predictions += self.upper[self.out[-1]] if self.out[-1] in self.upper and self.capslock else char
-            print(self.predictions)
+            self.text += self.upper[self.out[-1]] if self.out[-1] in self.upper and self.capslock else char
+        
+
+        print(self.text)
 
 
 
