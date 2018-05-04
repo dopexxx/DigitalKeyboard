@@ -1,0 +1,22 @@
+Further steps (4.5.2018)
+
+- Hardware
+
+	/ Get access to a workspace equipped with soldering materials and tools
+	/ Build round support, e.g., styrofoam ball or blastic bowl or even a rigid plastic bottle
+	/ Redo the buttons such that connections between aluminum and wires are soldered and
+	  the wires are soldered onto a male pin.
+	/ Find a more durable replacement for the aluminum foil.
+	/ Implement acoustic (or any non-visual) feedback once a character has been logged (piezo).
+
+	Eventually: 
+	/ Make things wireless. This is nontrivial due to the need for power suppy and short latency 
+	  and the question of compatibility with the capacitive sensory.
+	/ Build a neat-looking box.
+
+- Software
+    
+    / Write a GUI that shows the letters in large format. 
+    / Extend this GUI such that it provides a "training mode" where you can re-type random     
+      example sentences and obtain information about your speed in chars/min and your progress.
+    / Assess the feasibility rudimentary auto-complete feature.
