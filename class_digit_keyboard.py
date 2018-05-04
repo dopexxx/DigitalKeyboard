@@ -10,7 +10,7 @@ class typing(object):
     """
     
     
-    def __init__(self,dev='J',pipe='J'): 
+    def __init__(self,dev='J'): 
         """
         Parameters:
         -----------
@@ -26,20 +26,13 @@ class typing(object):
         else:
             raise ValueError("Unspecified serial port")
             
-        if pipe == 'Mo':
-            # Original pipeline
-            self.create_table()        
-            self.out = self.read_arduino()
-            self.translate()
-        elif pipe == 'J':
-            # Alternative pipeline
-            self.text = str()
-            self.create_dict()
-            self.read_arduino() # Change 1 line in that method
-            self.translate_dict()
-        else:
-            raise ValueError("Unspecified pipeline")
         
+
+        self.text = str()
+        self.create_dict()
+        self.read_arduino() # Change 1 line in that method
+        self.translate_dict()
+    
         
         
     def read_arduino(self):
@@ -57,12 +50,12 @@ class typing(object):
             print(x)
             self.out.append(x)
             self.translate_dict()
-            # Alternative
-            # self.translate_dict()
+
             if len(self.out)>20:
                 break
 
-
+    # Deprecated version that will be remove in future versions.
+    """
     def create_table(self):
         '''Create lookup table that converts 5-bit strings to letters'''   
         index = np.arange(0,26,1)
@@ -73,8 +66,11 @@ class typing(object):
             binary.append(format(current[2:].zfill(5)))
             chars.append(string.ascii_lowercase[i])
         self.table = np.column_stack([binary,chars]) 
+
+    """
     
-    
+    # Deprecated version that may be remove in future versions.
+    """
     def translate(self):
         ''' 
         Implements lookup table created using create_table
@@ -88,6 +84,7 @@ class typing(object):
             except ValueError: # invalid combination
                 translation.append('%')
         print("".join(translation))
+    """
 
 
 
@@ -158,7 +155,7 @@ class typing(object):
 
         elif self.out[-1] == self.returns:
 
-            self.OUTPUT = self.textx
+            self.OUTPUT = self.text
 
         else:
 
@@ -170,5 +167,4 @@ class typing(object):
 
 
 
-typer = typing()
     

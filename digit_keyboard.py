@@ -9,12 +9,6 @@ Python interface for arduino-based 5-digit keyboard.
 
 requires pySerial
 
-''' TBD: 
-1. make table into dict for speed
-2. tidy up code
-3. think about smart way to assign characters to binary numbers
-4. think about ways to use this
-''' 
 """
 
 import serial
