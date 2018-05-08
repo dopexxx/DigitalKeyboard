@@ -17,7 +17,6 @@ Further steps (4.5.2018)
 - Software
 
 
-    / Write an interface to alllow sending messenges (via Facebook) with the device (python selenium)
     / Write a GUI that shows the letters in large format. 
     / Extend this GUI such that it provides a "training mode" where you can re-type random     
       example sentences and obtain information about your speed in chars/min and your progress.

@@ -94,8 +94,8 @@ class browser(object):
 		print("Website set up to write a message to", self.friend_name)
 		print("Please type your message below: ")
 		typer = typing()
-		path_textbox.send_keys(typer.OUTPUT)
 		time.sleep(1)
+		path_textbox.send_keys(typer.OUTPUT)
 		path_textbox.send_keys(Keys.RETURN)
 
 		print("Message successfully sent!")
